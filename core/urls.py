@@ -14,17 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import os
+
 import debug_toolbar
+from dj_rest_auth.registration.views import ConfirmEmailView, VerifyEmailView
 from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
-from dj_rest_auth.registration.views import VerifyEmailView, ConfirmEmailView
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from django.urls import include, path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
+    path("api/categories/", include("categories.urls")),
     path(settings.ADMIN_URL, admin.site.urls),
     path("api/auth/", include("dj_rest_auth.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -42,4 +42,6 @@ urlpatterns = [
 ]
 
 if os.environ.get("ENV") == "dev":
-    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
+    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))] + static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )
