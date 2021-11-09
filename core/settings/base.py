@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "dj_rest_auth.registration",
     "corsheaders",
+    "debug_toolbar",
     # locals
     "users",
 ]
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
