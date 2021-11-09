@@ -7,6 +7,9 @@ name = "pypi"
 django = "*"
 djangorestframework = "*"
 psycopg2 = "*"
+dj-rest-auth = {extras = ["with_social"], version = "*"}
+djangorestframework-simplejwt = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 

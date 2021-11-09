@@ -33,8 +33,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     # 3rd party
-    # ---
+    "rest_framework",
+    "dj_rest_auth",
+    "allauth",
+    "allauth.account",
+    "dj_rest_auth.registration",
+    "corsheaders",
     # locals
     "users",
 ]
@@ -42,6 +48,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -104,6 +111,29 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSS": [
+        "rest_framework.permissions.isAuthenticatedOrReadOnly",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+}
+
+# SimpleJWT
+# https://dj-rest-auth.readthedocs.io/en/latest/installation.html
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = "findmentor-auth"
+JWT_AUTH_REFRESH_COOKIE = "findmentor-refresh-token"
+
+# Allauth
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+LOGIN_URL = os.environ.get("FRONTEND_URL") + os.environ.get("LOGIN_PATH")
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -130,3 +160,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "users.CustomUser"
+
+
+SITE_ID = 1

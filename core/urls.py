@@ -15,8 +15,26 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from dj_rest_auth.registration.views import VerifyEmailView, ConfirmEmailView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
+    path("api/auth/", include("dj_rest_auth.urls")),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path(
+        "api/auth/registration/account-confirm-email/",
+        VerifyEmailView.as_view(),
+        name="account_email_verification_sent",
+    ),
+    path(
+        "api/auth/registration/account-confirm-email/<str:key>/",
+        ConfirmEmailView.as_view(),
+    ),
+    path("api/auth/registration/", include("dj_rest_auth.registration.urls")),
 ]
