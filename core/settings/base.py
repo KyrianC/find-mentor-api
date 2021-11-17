@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # locals
     "users",
     "categories",
+    "classes",
 ]
 
 MIDDLEWARE = [
