@@ -42,6 +42,7 @@ class Class(models.Model):
             self.slug = slugify(self.title)
         return super(Class, self).save(*args, **kwargs)
 
+    @property
     def average_rating(self):
         avg = self.ratings.aggregate(Avg("value")).get("value__avg")
         if avg is not None:
@@ -76,7 +77,7 @@ class ClassRating(models.Model):
         return f"{self.rated_class.title}: {self.value}, by {self.author.username}"
 
 
-class classImages(models.Model):
+class ClassImages(models.Model):
     of_class = models.ForeignKey(Class, related_name="images", on_delete=models.CASCADE)
     image = models.ImageField(null=True, max_length=25, upload_to=media_upload_path)
 

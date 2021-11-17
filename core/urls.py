@@ -24,6 +24,7 @@ from django.urls import include, path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
+    path("api/classes/", include("classes.urls")),
     path("api/categories/", include("categories.urls")),
     path(settings.ADMIN_URL, admin.site.urls),
     path("api/auth/", include("dj_rest_auth.urls")),
